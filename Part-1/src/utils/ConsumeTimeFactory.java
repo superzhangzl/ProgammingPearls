@@ -25,6 +25,16 @@ public class ConsumeTimeFactory {
         return this;
     }
 
+    public ConsumeTimeFactory before(ExecuteFunctionCallable function) {
+        try {
+            function.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        return this;
+    }
+
     public ConsumeTimeFactory end() {
         this.endTime = System.currentTimeMillis();
         this.consumeTime = endTime - startTime;
