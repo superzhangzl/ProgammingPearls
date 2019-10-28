@@ -22,7 +22,7 @@ public class Q2 {
     }
 
     public static boolean test(int i) {
-        return !((arr[i >> SHIFT] & (1 << (i & MASK))) == 0);
+        return ((arr[i >> SHIFT] & (1 << (i & MASK))) != 0);
     }
 
     @Test
