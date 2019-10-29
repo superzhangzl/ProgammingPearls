@@ -191,3 +191,27 @@ public static int test(int i) {
 | ------------------------------ | ----- |
 | `Arrays.parallelSort(int[] a)` | 283ms |
 | 位排序                         | 14ms  |
+
+
+
+
+
+#### 4. 如果认真考虑了习题3，你将会面对生成小于n且没有重复的k个整数的问题。最简单的方法就是使用前k个正整数。这个极端的数据集合将不会明显地改变位图方法的运行时间，但是可能会歪曲系统排序的运行时间。如何生成位于0至n-1之间的k个不同的随机顺序的随机整数？尽量使你的程序简短且高效。
+
+具体Java算法和测试代码[点击跳转](./src/question/Q4.java)
+
+其中`ThreadLocalRandom.current().nextInt(int origin, int bound)`用于生成[origin, bound)之间的随机整数。
+
+书中答案给的伪代码：下面的代码假定`randint(l, u)`返回`l .. u`中的随机整数。swap函数作用是交换x中的两个元素。
+
+```java
+for i = [0, n)
+     x[i] = i
+for i = [0, k)
+     swap(i, randint(i, n-1))
+     print x[i]
+```
+
+
+
+// todo 参考12章取样问题，尤其是习题12.8
