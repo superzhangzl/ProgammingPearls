@@ -21,7 +21,7 @@ public class Q6 {
         public static final int[] arr;
 
         static {
-            if (TIMES <= 0 || TIMES > Integer.MAX_VALUE) {
+            if (TIMES <= 0 || TIMES >= BIT_SIZE) {
                 System.exit(-9);
             }
             int i = 0;
@@ -51,61 +51,71 @@ public class Q6 {
             // 拿到长度为 n 的长度的字段，然后取出这一段长度所代表的数字，然后+1，再还原回去
             // 截取指定字段的长度
             System.out.println("begin : " + arr[i / SHIFT]);
-            int count = (arr[i / SHIFT] >> 4) & 0x11111111;
-//            int count = arr[i / SHIFT] >> suffix;
+            int count = ((arr[i / SHIFT] >> suffix) & 0x0000000f);
             System.out.println("count : " + count);
             count++;
             if (count > TIMES) {
                 System.err.println("the dup num is more than : " + TIMES);
                 System.exit(TIMES);
             }
-
             // 先归0，然后再设值，不然直接进行或操作会导致计算数量错误
-            // todo 将值再设置到对应位置上
-            arr[i / SHIFT] = (0 << suffix);
+            int zeroIndex = ~(0x0000000f << suffix);
+            System.out.println(String.format("%08x", zeroIndex));
+            arr[i / SHIFT] &= (zeroIndex);
+            // 将值再设置到对应位置上
             arr[i / SHIFT] |= (count << suffix);
             System.out.println("result : " + arr[i / SHIFT]);
             System.out.println("====================");
         }
 
         public static void clear(int i) {
-            for (int j = 0; j < SITE_SIZE; j++) {
-                System.out.println("input : " + i);
-                // 获取需要偏移的位置
-                int suffix = (i & MASK) * SITE_SIZE;
-                System.out.println("suffix : " + suffix);
-                // 拿到长度为 n 的长度的字段，然后取出这一段长度所代表的数字，然后+1，再还原回去
-                int count = arr[i / SHIFT] >> suffix;
-//            int count = arr[i / SHIFT] | (1 << suffix);
-                System.out.println("count : " + count);
-                count--;
-                if (count < 0) {
-                    System.err.println("the dup num is more than : " + TIMES);
-                    System.exit(TIMES);
-                }
-                // 先归0，然后再设值，不然直接进行或操作会导致计算数量错误
-                arr[i / SHIFT] &= 0;
-                arr[i / SHIFT] |= (count << suffix);
-                System.out.println("result : " + arr[i / SHIFT]);
-                System.out.println("====================");
+            System.out.println("input : " + i);
+            // 获取需要偏移的位置
+            int suffix = (i & MASK) * SITE_SIZE;
+            System.out.println("suffix : " + suffix);
+            // 拿到长度为 n 的长度的字段，然后取出这一段长度所代表的数字，然后+1，再还原回去
+            // 截取指定字段的长度
+            System.out.println("begin : " + arr[i / SHIFT]);
+            int count = ((arr[i / SHIFT] >> suffix) & 0x0000000f);
+            System.out.println("count : " + count);
+            count--;
+            if (count > TIMES) {
+                System.err.println("the dup num is more than : " + TIMES);
+                System.exit(TIMES);
             }
-            arr[i / SHIFT] &= ~(1 << (i & MASK));
+            // 先归0，然后再设值，不然直接进行或操作会导致计算数量错误
+            int zeroIndex = ~(0x0000000f << suffix);
+            System.out.println(String.format("%08x", zeroIndex));
+            arr[i / SHIFT] &= (zeroIndex);
+            // 将值再设置到对应位置上
+            arr[i / SHIFT] |= (count << suffix);
+            System.out.println("result : " + arr[i / SHIFT]);
+            System.out.println("====================");
         }
 
         public static boolean test(int i) {
-            return ((arr[i / SHIFT] & (1 << (i & MASK))) != 0);
+            // 获取需要偏移的位置
+            int suffix = (i & MASK) * SITE_SIZE;
+            // 拿到长度为 n 的长度的字段，然后取出这一段长度所代表的数字，然后+1，再还原回去
+            // 截取指定字段的长度
+            int count = ((arr[i / SHIFT] >> suffix) & 0x0000000f);
+            return count > 0;
         }
 
     }
 
     public static void main(String[] args) {
-        List<Integer> collect = IntStream.of(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0).boxed().collect(Collectors.toList());
-//        Collections.shuffle(collect);
+        //todo 新增生成随机个数及长度的序列 工具类
+        List<Integer> collect = IntStream.of(3, 3, 1, 3, 0, 0, 1, 0, 0, 1).boxed().collect(Collectors.toList());
+        Collections.shuffle(collect);
         collect.forEach(Q6.BitSortNotOnlyOne::set);
-        System.out.println(0x00001111);
         System.out.println("~~~~~~~~~~~~~~~~");
+        System.out.println(Q6.BitSortNotOnlyOne.test(2));
         for (int i = 0; i < collect.size(); i++) {
             Q6.BitSortNotOnlyOne.clear(collect.get(i));
         }
+        System.out.println(Q6.BitSortNotOnlyOne.test(1));
+        System.out.println(Q6.BitSortNotOnlyOne.test(0));
+        System.out.println(Q6.BitSortNotOnlyOne.test(3));
     }
 }
