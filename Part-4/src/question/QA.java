@@ -7,7 +7,7 @@ package question;
  */
 public class QA {
     public static void main(String[] args) {
-        // todo add Test case
+        // todo add Test case，and timing test case
         int[] arr = new int[]{1, 2, 3, 4, 5, 5, 7, 8, 9};
         int result0 = binarySearch0(arr, 0, arr.length, 5);
         System.out.println(result0);
@@ -28,7 +28,6 @@ public class QA {
      * @return
      */
     public static int binarySearch0(int[] a, int fromIndex, int toIndex, int key) {
-        // todo range check
         int low = fromIndex;
         int high = toIndex - 1;
 
