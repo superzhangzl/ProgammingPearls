@@ -2,7 +2,9 @@ package question;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zzl
@@ -32,6 +34,26 @@ public class Q1 {
 
     public static void main(String[] args) {
         printTable(table);
+        System.out.println(getTax(3500));
+    }
+
+    public static double getTax(double salary) {
+        int index = -1;
+        for (int i = 1; i < table.size(); i++) {
+            TaxQueen lastLine = table.get(i - 1);
+            TaxQueen currentLine = table.get(i);
+            if (salary >= lastLine.baseRange.doubleValue() && salary < currentLine.baseRange.doubleValue()) {
+                index = i - 1;
+                break;
+            }
+        }
+        System.out.println(index);
+        TaxQueen line = table.get(index);
+        System.out.println(line);
+        BigDecimal v = line.currentPercent.multiply((BigDecimal.valueOf(salary).subtract(line.baseRange)));
+        BigDecimal result = line.baseTax.add(v);
+        return result.doubleValue();
+
     }
 
     public static void printTable(List<TaxQueen> table) {
