@@ -17,7 +17,7 @@ public class Q4 {
 
         System.out.println(getBetweenDays(date, today));
         System.out.println(getDayOfWeek(today));
-        printMonthMap();
+        printMonthMap(2019, 12);
     }
 
     public static long getBetweenDays(LocalDate earlyDate, LocalDate lateDate) {
@@ -33,9 +33,9 @@ public class Q4 {
     /**
      * (@link https://blog.csdn.net/qq_32409957/article/details/89190255)
      */
-    public static void printMonthMap() {
+    public static void printMonthMap(int year, int month) {
         //获得当前系统时间
-        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.of(year, month, 1);
         String separator = "\t";
         String lineSeparator = "\n";
         StringBuilder builder = new StringBuilder();
