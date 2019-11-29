@@ -29,17 +29,45 @@ public class Q8 {
     }
 
 
+    /**
+     * 初始化亮灯的表
+     *
+     * @param positions
+     * @return
+     */
     private static Integer init(List<Integer> positions) {
         int result = 0;
         for (int i = 0; i < 10; i++) {
             if (positions.contains(i)) {
+                // 对应位置若有值，则在当前二进制位上设为1
                 result = result | 1 << i;
             }
         }
         return result;
     }
 
-    public static void main(String[] args) {
+    /**
+     * 将10进制数分解，然后从初始化的表中获取数据即可
+     *
+     * @param input
+     * @return
+     */
+    public static int[] getPrintPositions(Integer input) {
+        String nums = input.toString();
+        char[] chars = nums.toCharArray();
+        int[] result = new int[chars.length];
+        int index = 0;
+        for (char c : chars) {
+            int i = c - '0';
+            System.out.println("num  :" + i);
+            int light = NUM_FORMAT.get(i);
+            System.out.println("light:" + light);
+            result[index++] = light;
+        }
+        return result;
+    }
 
+    public static void main(String[] args) {
+        int[] lights = getPrintPositions(1013513);
     }
 }
