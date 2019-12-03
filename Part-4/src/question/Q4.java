@@ -39,7 +39,7 @@ public class Q4 {
 
     /**
      * JDK中的二分查找（迭代版本）
-     * {@link question.QA}
+     * {@link Q3}
      * 计算迭代次数以及对数
      *
      * @param a
