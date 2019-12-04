@@ -5,7 +5,7 @@ package question;
  *
  * @author zzl
  */
-public class QA {
+public class Q3 {
     public static void main(String[] args) {
         // todo add Test case，and timing test case
         int[] arr = new int[]{1, 2, 3, 4, 5, 5, 7, 8, 9};
